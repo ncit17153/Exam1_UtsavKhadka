@@ -4,16 +4,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the data
-@st.cache
+@st.cache_data
 def load_data():
-    url = "https://raw.githubusercontent.com/ncit17153/Exam1_utsavkhadka/refs/heads/main/imports_85%20(1).csv"
+    filename = "imports_85.csv"  # Replace this with the actual file name
     headers = [
         "symboling", "normalized-losses", "make", "fuel-type", "aspiration", "num-of-doors", "body-style",
         "drive-wheels", "engine-location", "wheel-base", "length", "width", "height", "curb-weight", "engine-type",
         "num-of-cylinders", "engine-size", "fuel-system", "bore", "stroke", "compression-ratio", "horsepower",
         "peak-rpm", "city-mpg", "highway-mpg", "price"
     ]
-    df = pd.read_csv(url, names=headers)
+    df = pd.read_csv(filename, names=headers)
     return df
 
 # Main Function
@@ -29,22 +29,20 @@ def main():
 
     # Display missing values
     st.subheader("Missing Values")
+    st.write("Missing Values (True/False):")
     missing_data = df.isnull()
-    st.write(missing_data.head())
+    st.dataframe(missing_data.head())
 
     # Count missing values
     st.write("Count of Missing Values Per Column:")
-    for column in missing_data.columns.values.tolist():
-        st.write(f"{column}:")
-        st.write(missing_data[column].value_counts())
+    st.write(df.isnull().sum())
 
     # Handling missing values
     st.subheader("Handling Missing Values")
-
-    # Replace missing values with mean
     for col in ["normalized-losses", "bore", "stroke", "horsepower", "peak-rpm"]:
         if df[col].isnull().sum() > 0:
-            mean_value = df[col].astype(float).mean()
+            df[col] = df[col].astype(float)  # Convert to float first
+            mean_value = df[col].mean()
             df[col].replace(np.nan, mean_value, inplace=True)
 
     # Replace missing "num-of-doors" with the most frequent value
