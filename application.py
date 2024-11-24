@@ -6,14 +6,14 @@ import matplotlib.pyplot as plt
 # Load the data
 @st.cache
 def load_data():
-    filename = "https://raw.githubusercontent.com/ncit17153/Exam1_utsavkhadka/refs/heads/main/imports_85%20(1).csv"
+    url = "https://raw.githubusercontent.com/ncit17153/Exam1_utsavkhadka/refs/heads/main/imports_85%20(1).csv"
     headers = [
         "symboling", "normalized-losses", "make", "fuel-type", "aspiration", "num-of-doors", "body-style",
         "drive-wheels", "engine-location", "wheel-base", "length", "width", "height", "curb-weight", "engine-type",
         "num-of-cylinders", "engine-size", "fuel-system", "bore", "stroke", "compression-ratio", "horsepower",
         "peak-rpm", "city-mpg", "highway-mpg", "price"
     ]
-    df = pd.read_csv(filename, names=headers)
+    df = pd.read_csv(url, names=headers)
     return df
 
 # Main Function
